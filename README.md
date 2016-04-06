@@ -38,6 +38,7 @@ var f3=function three(resolve){
 	    resolve('done');
     },1000);
 };
+
 ```
 
 ### Version
