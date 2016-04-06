@@ -1,3 +1,19 @@
+/*
+usage: 
+ first import or require in javascript source you need to use in:
+   var PromiseRunner = require('./PromiseRunner');
+ next create an instance:
+   var chain=new PrimiseRunner();
+ now using the add method queue up the functions to be run asynchronously and the parameters the function accepts as an array:
+   chain.add(f1,[1]).add(f2,[2,3]).add(f3,[5,3,5,9]).add(f3).add(f2,[100,200]).add(f5);
+ when ever the run() method is called the queue starts running
+
+ *** in the functions you add to the queue the first argument must be resolve and in the function
+ *** body you should call resolve('someMessage') so that the chain doesn't break and the promise
+ *** resolves to the next function.
+
+ */
+
 function PromiseRunner(){
     if (!(this instanceof PromiseRunner)) {
     return new PromiseRunner();
