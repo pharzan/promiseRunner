@@ -6,7 +6,7 @@
  ```js
    var PromiseRunner = require('./PromiseRunner');
    var chain=new PrimiseRunner();
- ```  
+ ``` 
  By using the _add_ method queue up the functions to be run asynchronously followed by the parameters the function accepts in an array in the correct order. 
 ```js
 chain.add(f1,[1]).add(f2,[2,3]).add(f3,[5,3,5,9]).add(f3).add(f2,[100,200]).add(f5);
