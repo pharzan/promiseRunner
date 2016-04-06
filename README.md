@@ -39,19 +39,17 @@ var f3=function three(resolve){
     },1000);
 };
 ```
+
 ### Version
 0.0.1
-### Todos
 
+### Todos
  - Make run method accept functions and run them in a continuous manner
  - Test
  - Add Code Comments
-
+ 
 ### Links
-- [github repository](git-repo-url): Linke to PromiseRunners GitHub Repository
-- [github homepage](git-homepage-url): Link to PromiseRunners GitHub Home
-- [Promises on MDN](mdn-promise-url)
-   
-   [git-repo-url]: <https://github.com/pharzan/promiseRunner/>
-   [git-homepage-url]: <http://pharzan.github.io/promiseRunner/>
-  [mdn-promise-url]: <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise>
+- [GitHub repository](https://github.com/pharzan/promiseRunner/): Linke to PromiseRunners GitHub Repository
+- [GitHub homepage](http://pharzan.github.io/promiseRunner/): Link to PromiseRunners GitHub Home
+- [Promises on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise): Link to the Promise Explanation page on MDN
+- [Can I Use](http://caniuse.com/#search=Promise): Which browsers support promises 
