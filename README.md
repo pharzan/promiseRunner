@@ -37,7 +37,7 @@ var f3=function three(resolve){
     setTimeout(function(){
 	    resolve('done');
     },1000);
-
+};
 ```
 
 ### Version
