@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/github-light.css">
     <meta name="viewport" content="width=device-width">
+    
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -17,6 +18,7 @@
       <header>
         <h1>Promise Runner</h1>
         <p>A simple promisefying factory which creates promises out of functions when you need asynchronous run of the same functions.</p>
+	
 
         <p class="view"><a href="https://github.com/pharzan/promiseRunner">View the Project on GitHub <small>pharzan/promiseRunner</small></a></p>
 
@@ -32,7 +34,52 @@
 <a id="promise-runner" class="anchor" href="#promise-runner" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Promise Runner</h1>
 
 <h2>
-<a id="a-simple-promisifying-utility-to-make-functions-run-in-an-asynchronous-fashion" class="anchor" href="#a-simple-promisifying-utility-to-make-functions-run-in-an-asynchronous-fashion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>A simple promisifying utility to make functions run in an asynchronous fashion.</h2>
+  <a id="a-simple-promisifying-utility-to-make-functions-run-in-an-asynchronous-fashion" class="anchor" href="#a-simple-promisifying-utility-to-make-functions-run-in-an-asynchronous-fashion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>A simple promisifying utility to make functions run in an asynchronous fashion.</h2>
+	<p> This small tool intends to help reduce the amount of Promise statements and also promisify the functions.
+	    You need to keep in mind to pass in the resolve parameter to your function and call the function where ever you need the function to go back
+	</p>
+	<pre>
+	  <code>
+ function f1(resolve){
+   setTimeout(function(){
+   consol.log(f1');
+   resolve('done'); //this is when we need the function to continue to the next function
+  },1000);
+ }
+ 
+function f2(resolve){
+   setTimeout(function(){
+   consol.log(f2');
+   resolve('done'); 
+  },500);
+ }
+
+	</code>
+	</pre>
+	<p>Compare the above code to the below where you use <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promises</a> to make functions run in asynchronous manner.</p>
+
+	<pre>
+	  <code>
+function f1(resolve){
+  return new Promise(function(resolve){
+    setTimeout(function(){
+       consol.log(f1');
+        resolve('done'); 
+	    },1000);
+    })
+}
+ 
+function f2(resolve){
+  return new Promise(function(resolve){
+   setTimeout(function(){
+     consol.log(f2');
+     resolve('done'); 
+    },500);
+  })
+}
+	</code>
+	</pre>
+	<p>In the above method the Promise statement has to be repeated in every function and it can cause readability issues and it is not necessary.<p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/pharzan">pharzan</a></p>
@@ -40,6 +87,7 @@
       </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
+    
     
   </body>
 </html>
