@@ -19,98 +19,69 @@ function PromiseRunner(){
     return new PromiseRunner();
   }
     this.queue=[];
-    this.nextQueue=[];
-    this.mainPromise;
-    this.status='ready';
-    this.runNext=false;
-};
-
-PromiseRunner.prototype.add=function(fn,args){
-    if(this.status=='ready')
-	this.queue.push(
-	    {fn:fn,
-	     args:args
-	    });
-    else
-    {
-	this.nextQueue.push(
-	    {fn:fn,
-	     args:args
-	    });
-	this.status='pending';
-    }
-    
-    return this;
-};
-
-PromiseRunner.prototype.shift=function(fn,args){
-    
-    this.queue.shift();
-    
-    if(this.queue.length==1){
-	
-	this.queue=[];
-	this.status='ready';
-	if(this.nextQueue.length!==0){
-	    this.queue=this.nextQueue;
-	    this.nextQueue=[];
-	    if(this.runNext){
-		this.mainPromise=undefined;
-		this.run();
-		
-	    }
-	}else
-	    this.status='ready';
-    }
-    
-    return this;
 };
 
 PromiseRunner.prototype.run=function(){
+    
+    var args=arguments[1];
+    var fn;
     var self=this;
-    if(arguments.length==0){
-	if(this.status=='pending')
-	    this.runNext=true;
-	else{
-	    this.status='pending';
-	    this.queue.map(function(Q,i){
-		
-		if (typeof this.mainPromise === 'undefined'){    
-		    this.mainPromise =  new Promise(function(resolve){
-			
-			if(typeof Q.args!=='undefined')
-			    Q.args.unshift(resolve);
-			else
-			    Q.args=[resolve];
-			
-			var p=Q.fn.apply(this,Q.args);
-			
-			return p;
-		    });
-		}
-		else
-		{
-		    this.mainPromise = this.mainPromise.then(function(){
-			return new Promise(function(resolve){
-			    
-			    if(typeof Q.args!=='undefined')
-				Q.args.unshift(resolve);
-			    else
-				Q.args=[resolve];
-			    
-	 		    var p= Q.fn.apply(this,Q.args);
-			    
-			    self.shift();
-			    
-			    return p;
-			});
-			
-		    })
-		}
-		
-	    });
-	}
+    if(typeof arguments[0]=='function'){
+	fn=arguments[0];
     }
-}
+	
+    if (typeof self.mainPromise === 'undefined'){    
+	return self.mainPromise =  new Promise(function(resolve,reject){
+	    self.resolve=resolve;
+	    return fn.apply(self,args);
+	});
+    }
+    else
+    {
+	return self.mainPromise = self.mainPromise.then(
+	    function(){return new Promise(function(resolve,reject){
+			self.resolve=resolve;
+		return fn.apply(self,args);
+	    });	    
+	});
+    }
+};
+
+PromiseRunner.prototype.add=function(){
+    var self=this;
+    var fn=arguments[0];
+    var args=arguments[1];
+    this.queue.push({fn:fn,
+		     args:args});
+    return this;
+};
+
+PromiseRunner.prototype.runQueue=function(){
+    var self=this;
+    this.queue.map(function(Q){
+	self.run(Q.fn,Q.args);
+    });
+};
+
+var p=new PromiseRunner();
+
+var f1=function(input){
+    setTimeout(function(){
+	console.log(1,input);
+	p.resolve();
+    },100);
+};
+
+var f2=function(){
+    setTimeout(function(){
+	console.log(2);
+	p.resolve();
+    },500);
+};
+
+p.run(f2).then(p.run(function(){f1('hello');})).then(p.run(f2)).then(p.run(f1));
+p.add(f2).add(f1,['farzan',3,1,1]).add(f2).add(f1,['test',3,1]);
+p.runQueue();
+//console.log(p.queue);
 module.exports = PromiseRunner;
 
