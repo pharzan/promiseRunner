@@ -1,0 +1,25 @@
+{
+  "name": "promiserunner",
+  "version": "0.1.2",
+  "description": "A simple promisifying utility to make functions run in an asynchronous fashion.",
+  "main": "PromiseRunner.js",
+  "scripts": {
+    "test": "nodejs example.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pharzan/promiseRunner.git"
+  },
+  "keywords": [
+    "promise",
+    "asynchronous",
+    "chain",
+    "sequence"
+  ],
+  "author": "Farzan Tinati <Farzan.Tinati@gmail.com> (http://pharzan.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pharzan/promiseRunner/issues"
+  },
+  "homepage": "https://github.com/pharzan/promiseRunner#readme"
+}
