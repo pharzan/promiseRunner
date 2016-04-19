@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/github-light.css">
     <meta name="viewport" content="width=device-width">
-    
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -16,9 +15,8 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>Promise Runner</h1>
+        <h1>Promiserunner</h1>
         <p>A simple promisefying factory which creates promises out of functions when you need asynchronous run of the same functions.</p>
-	
 
         <p class="view"><a href="https://github.com/pharzan/promiseRunner">View the Project on GitHub <small>pharzan/promiseRunner</small></a></p>
 
@@ -31,55 +29,95 @@
       </header>
       <section>
         <h1>
-<a id="promise-runner" class="anchor" href="#promise-runner" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Promise Runner</h1>
+<a id="promise-runner" class="anchor" href="#promise-runner" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Promise Runner:</h1>
 
-<h2>
-  <a id="a-simple-promisifying-utility-to-make-functions-run-in-an-asynchronous-fashion" class="anchor" href="#a-simple-promisifying-utility-to-make-functions-run-in-an-asynchronous-fashion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>A simple promisifying utility to make functions run in an asynchronous fashion.</h2>
-	<p> This small tool intends to help reduce the amount of Promise statements and also promisify the functions.
-	    You need to keep in mind to pass in the resolve parameter to your function and call the function where ever you need the function to go back
-	</p>
-	<pre>
-	  <code>
- function f1(resolve){
-   setTimeout(function(){
-   consol.log(f1');
-   resolve('done'); //this is when we need the function to continue to the next function
-  },1000);
- }
- 
-function f2(resolve){
-   setTimeout(function(){
-   consol.log(f2');
-   resolve('done'); 
-  },500);
- }
+<h5>
+<a id="a-simple-promisifying-utility-to-make-functions-run-in-an-asynchronous-fashion" class="anchor" href="#a-simple-promisifying-utility-to-make-functions-run-in-an-asynchronous-fashion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>A simple promisifying utility to make functions run in an asynchronous fashion.</h5>
 
-	</code>
-	</pre>
-	<p>Compare the above code to the below where you use <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promises</a> to make functions run in asynchronous manner.</p>
+<p>simply use the run() method start the promise chain and put the followed functions in order inside a .then() or add all the functions to a queue and when ever you want the queue to be executed run the .runQueue() method.</p>
 
-	<pre>
-	  <code>
-function f1(resolve){
-  return new Promise(function(resolve){
-    setTimeout(function(){
-       consol.log(f1');
-        resolve('done'); 
-	    },1000);
-    })
-}
- 
-function f2(resolve){
-  return new Promise(function(resolve){
-   setTimeout(function(){
-     consol.log(f2');
-     resolve('done'); 
-    },500);
-  })
-}
-	</code>
-	</pre>
-	<p>In the above method the Promise statement has to be repeated in every function and it can cause readability issues and it is not necessary.<p>
+<h4>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Usage:</strong>
+</h4>
+
+<p>First import or require in the javascript source you need to use in and create an instence.</p>
+
+<div class="highlight highlight-source-js"><pre>   <span class="pl-k">var</span> PromiseRunner <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>./PromiseRunner<span class="pl-pds">'</span></span>);
+   <span class="pl-k">var</span> chain<span class="pl-k">=</span><span class="pl-k">new</span> <span class="pl-en">PrimiseRunner</span>();</pre></div>
+
+<p>There are two ways to 
+ By using the <em>add</em> method queue up the functions to be run asynchronously followed by the parameters the function accepts in an array in the correct order. </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">chain</span>.<span class="pl-c1">add</span>(f1,[<span class="pl-c1">1</span>]).<span class="pl-c1">add</span>(f2,[<span class="pl-c1">2</span>,<span class="pl-c1">3</span>]).<span class="pl-c1">add</span>(f3,[<span class="pl-c1">5</span>,<span class="pl-c1">3</span>,<span class="pl-c1">5</span>,<span class="pl-c1">9</span>]).<span class="pl-c1">add</span>(f3).<span class="pl-c1">add</span>(f2,[<span class="pl-c1">100</span>,<span class="pl-c1">200</span>]).<span class="pl-c1">add</span>(f5);</pre></div>
+
+<p><strong>Keep in mind to add chain.resolve() or chain.reject() to the place you want the function to continue to the next one in line.</strong>
+The body of function f1 would look something like this:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> <span class="pl-en">f1</span><span class="pl-k">=</span><span class="pl-k">function</span>(<span class="pl-smi">input</span>){
+    <span class="pl-c1">setTimeout</span>(<span class="pl-k">function</span>(){
+        <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-c1">1</span>,input);
+        <span class="pl-smi">chain</span>.<span class="pl-en">resolve</span>(); <span class="pl-c">//this is where we go to the next function</span>
+    },<span class="pl-c1">100</span>);
+};
+</pre></div>
+
+<p>when ever there is need for the queue to run use the runQueue() method to start the asynchronouse run process.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">chain</span>.<span class="pl-en">runQueue</span>();</pre></div>
+
+<p>Another method to run wrap the functions in a promise would be to use the .run() method directly:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">p</span>.<span class="pl-en">run</span>(f2)
+ .<span class="pl-en">then</span>(<span class="pl-smi">p</span>.<span class="pl-en">run</span>(<span class="pl-k">function</span>({
+         <span class="pl-en">f1</span>(<span class="pl-s"><span class="pl-pds">'</span>hello<span class="pl-pds">'</span></span>);}))
+ .then(p.run(f2))
+ .then(p.run(f1));</pre></div>
+
+<h3>
+<a id="functions-wrapped-in-a-promise" class="anchor" href="#functions-wrapped-in-a-promise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Functions wrapped in a promise:</h3>
+
+<ul>
+<li>somewhere in the body of the function a resolve('someMessage') must be provided so that the chain doesn't break and the promise and resolves to the next function. You may also put a reject and if the function fails call .reject().</li>
+</ul>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> i<span class="pl-k">=</span><span class="pl-c1">1</span>;
+<span class="pl-k">var</span> <span class="pl-en">f1</span><span class="pl-k">=</span><span class="pl-k">function</span> <span class="pl-en">one</span>(<span class="pl-smi">resolve</span>,<span class="pl-smi">i</span>){ <span class="pl-c">//resolve as the first parameter</span>
+    <span class="pl-k">if</span>(i<span class="pl-k">==</span><span class="pl-c1">1</span>){
+        <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>one<span class="pl-pds">'</span></span>,i);
+        <span class="pl-smi">chain</span>.<span class="pl-en">resolve</span>(<span class="pl-s"><span class="pl-pds">'</span>done<span class="pl-pds">'</span></span>); <span class="pl-c">//resolve here</span>
+    }<span class="pl-k">else</span>
+    {
+        <span class="pl-smi">chain</span>.<span class="pl-en">reject</span>(<span class="pl-s"><span class="pl-pds">'</span>fail<span class="pl-pds">'</span></span>); <span class="pl-c">//rejects here</span>
+    }
+};</pre></div>
+
+<h3>
+<a id="version" class="anchor" href="#version" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Version</h3>
+
+<p>0.1.1</p>
+
+<h3>
+<a id="todos" class="anchor" href="#todos" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Todos</h3>
+
+<ul>
+<li>Make run method accept functions and run them in a continuous manner</li>
+<li>Test</li>
+<li>Add Code Comments</li>
+</ul>
+
+<h3>
+<a id="links" class="anchor" href="#links" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Links</h3>
+
+<ul>
+<li>
+<a href="https://github.com/pharzan/promiseRunner/">GitHub repository</a>: Linke to PromiseRunners GitHub Repository</li>
+<li>
+<a href="http://pharzan.github.io/promiseRunner/">GitHub homepage</a>: Link to PromiseRunners GitHub Home</li>
+<li>
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promises on MDN</a>: Link to the Promise Explanation page on MDN</li>
+<li>
+<a href="http://caniuse.com/#search=Promise">Can I Use</a>: Which browsers support promises </li>
+</ul>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/pharzan">pharzan</a></p>
@@ -87,7 +125,6 @@ function f2(resolve){
       </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
-    
     
   </body>
 </html>
