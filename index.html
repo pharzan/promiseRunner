@@ -34,15 +34,22 @@
 <h5>
 <a id="a-simple-promisifying-utility-to-make-functions-run-in-an-asynchronous-fashion" class="anchor" href="#a-simple-promisifying-utility-to-make-functions-run-in-an-asynchronous-fashion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>A simple promisifying utility to make functions run in an asynchronous fashion.</h5>
 
-<p>simply use the run() method start the promise chain and put the followed functions in order inside a .then() or add all the functions to a queue and when ever you want the queue to be executed run the .runQueue() method.</p>
+<p>Simply use the run() method start the promise chain and put the followed functions in order inside a .then() or add all the functions to a queue and when ever you want the queue to be executed run the .runQueue() method.</p>
 
 <h4>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Usage:</strong>
 </h4>
 
-<p>First import or require in the javascript source you need to use in and create an instence.</p>
+<p>After installing the package either globally or locally, import or require in the javascript source you need to use in and create an instence.
+to install locally:</p>
 
-<div class="highlight highlight-source-js"><pre>   <span class="pl-k">var</span> PromiseRunner <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>./PromiseRunner<span class="pl-pds">'</span></span>);
+<div class="highlight highlight-source-shell"><pre>npm install promiserunner <span class="pl-c"># installs locally</span></pre></div>
+
+<p>Or to install  globally make sure you have the correct privilidges,</p>
+
+<div class="highlight highlight-source-shell"><pre>npm install -g promiserunner <span class="pl-c"># installs globally</span></pre></div>
+
+<div class="highlight highlight-source-js"><pre>   <span class="pl-k">var</span> PromiseRunner <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>promiserunner<span class="pl-pds">'</span></span>);
    <span class="pl-k">var</span> chain<span class="pl-k">=</span><span class="pl-k">new</span> <span class="pl-en">PrimiseRunner</span>();</pre></div>
 
 <p>There are two ways to 
@@ -94,14 +101,14 @@ The body of function f1 would look something like this:</p>
 <h3>
 <a id="version" class="anchor" href="#version" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Version</h3>
 
-<p>0.1.1</p>
+<p>0.1.2</p>
 
 <h3>
 <a id="todos" class="anchor" href="#todos" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Todos</h3>
 
 <ul>
-<li>Make run method accept functions and run them in a continuous manner</li>
-<li>Test</li>
+<li>create tests</li>
+<li>add stop and pause functionalities to queue runner</li>
 <li>Add Code Comments</li>
 </ul>
 
