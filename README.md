@@ -1,11 +1,20 @@
 # Promise Runner:
 ##### A simple promisifying utility to make functions run in an asynchronous fashion.
-simply use the run() method start the promise chain and put the followed functions in order inside a .then() or add all the functions to a queue and when ever you want the queue to be executed run the .runQueue() method.
+Simply use the run() method start the promise chain and put the followed functions in order inside a .then() or add all the functions to a queue and when ever you want the queue to be executed run the .runQueue() method.
 
 #### **Usage:** 
-First import or require in the javascript source you need to use in and create an instence.
+After installing the package either globally or locally, import or require in the javascript source you need to use in and create an instence.
+to install locally:
+ ```sh
+npm install promiserunner # installs locally
+ ```
+Or to install  globally make sure you have the correct privilidges,
+ ```sh
+npm install -g promiserunner # installs globally
+ ```
+
  ```js
-   var PromiseRunner = require('./PromiseRunner');
+   var PromiseRunner = require('promiserunner');
    var chain=new PrimiseRunner();
  ``` 
  There are two ways to 
@@ -54,11 +63,11 @@ var f1=function one(resolve,i){ //resolve as the first parameter
 ```
 
 ### Version
-0.1.1
+0.1.2
 
 ### Todos
- - Make run method accept functions and run them in a continuous manner
- - Test
+ - create tests
+ - add stop and pause functionalities to queue runner
  - Add Code Comments
  
 ### Links
