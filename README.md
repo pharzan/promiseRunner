@@ -15,7 +15,7 @@ npm install -g promiserunner # installs globally
 
  ```js
    var PromiseRunner = require('promiserunner');
-   var chain=new PrimiseRunner();
+   var chain=new PromiseRunner();
  ``` 
  There are two ways to 
  By using the _add_ method queue up the functions to be run asynchronously followed by the parameters the function accepts in an array in the correct order. 
